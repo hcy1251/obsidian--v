@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "喵喵/技術架構.md",
+                "file": "Video Generator/系統架構.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "技術架構"
+              "title": "系統架構"
             }
           }
         ]
@@ -179,15 +179,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8b6e3c317d08d9cf",
+  "active": "74d7c31b1ec4cc2f",
   "lastOpenFiles": [
+    "Video Generator/影片生成流程與系統文檔.md",
+    "Video Generator/系統架構.md",
+    "Video Generator/Video Generation Service Project Documentation.md",
+    "Video Generator/影片生成邏輯.md",
+    "喵喵/技術架構.md",
+    "Video Generator",
     "POC/Obsidian Sample Plugin.md",
     "喵喵",
     "Welcome.md",
     "POC/Requirement.md",
     "POC/Streaming.md",
     "POC",
-    "喵喵/技術架構.md",
     "喵喵/喵宇宙APP _第二版.md"
   ]
 }
