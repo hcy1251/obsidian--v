@@ -95,4 +95,43 @@ video_service/
 1. 在 **core/** 實作核心邏輯 (影片、音訊處理)。
 2. 在 **tasks/video_tasks.py** 中定義各子任務（生成音訊/合成段落）。
 3. 在 **tasks/orchestrator.py** 中協調子任務串接（如 orchestrator.generate_video → group/chain → finalize_video）。
-4. 在 **api/routes.py** 中定義 API 端點 (e.g. `/generate`, `/generate/all`, `/status/...`)
+4. 在 **api/routes.py** 中定義 API 端點 (e.g. `/generate`, `/generate/all`, `/status/...`)。
+5. 配合 **settings.py** 中的參數進行測試與調整。
+6. 最後視需要在 `docker/` 裡做容器化設定並部署。
+
+### 6. 需求套件 (Required Dependencies)
+
+- **FastAPI**：提供 API 服務
+- **Celery**：做任務排程與分散式處理
+- **Redis**：作為 Celery broker/result backend
+- **FFmpeg**：用於影片與音訊處理
+- **pydub**、**gTTS**：用於 TTS 處理字幕轉音訊（可視需求安裝）
+- 其他套件請參考 `requirements.txt`
+
+---
+
+## Celery 設定 (Celery Configuration)
+
+- 使用 **Redis** 作為 Broker 與 Result Backend
+- 在 `celery_app.py` 中以 `app.conf.update(...)` 指定 Celery 參數
+- 可於 `task_routes` 中對不同任務做路由或限速設定 (e.g. `generate_audio_segment`、`process_segment`)
+
+---
+
+## 部署 (Deployment)
+
+- 建議使用 **Docker Compose** 同時啟動：
+    1. FastAPI（提供 HTTP 端點）
+    2. Celery Worker（執行影片合成任務）
+    3. Redis（Broker + Backend）
+    4. (可選) Flower（Celery監控）
+- 於 `docker-compose.yml` 中設定對應服務的 port、volume 與相依關係。
+- 若需多台機器可考慮 container cluster 或 Kubernetes 等方式擴充。
+
+---
+
+## 監控與維護 (Monitoring and Maintenance)
+
+- 可使用 **Celery Flower** 或其他監控工具來查看 Worker 運行、任務排程、失敗記錄等。
+- 日誌可分級記錄（INFO/DEBUG/ERROR 等），並盡量保留**音訊/影片合成關鍵資訊**做後續除錯。
+- 建議定期檢查 `temp_output/`、`temp/` 等目錄，清理不再需要的暫存檔案。
